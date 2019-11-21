@@ -4,7 +4,6 @@
 #include <sstream>
 #include <iostream>
 #include <vector>
-
 using namespace std;
 
 
@@ -19,24 +18,36 @@ void print_tree_preorder(TreeNode* root) noexcept
 
 namespace
 {
-	TreeNode* build_tree(const vector<string>& nodes)
+	TreeNode* build_tree(const vector<string>& nodes) noexcept
 	{
 		vector<TreeNode*> vec(nodes.size());
 		vec[0] = new TreeNode(stoi(nodes[0]));
+		int parent_idx = 0;
+		int count = 0;
 		for (size_t i = 1; i < nodes.size(); i++) {
-			if (nodes[i] == "null") continue;
-			int parent_idx = (i - 1) / 2;  // parent node index
 
-			// to find the next non-null parent node
-			while (vec[parent_idx] == nullptr) parent_idx++;
-			TreeNode* newNode = new TreeNode(stoi(nodes[i]));  // allocate memory, don't free
-			vec[i] = newNode;
-			if (i % 2 == 1) {
-				vec[parent_idx]->left = newNode;
+            if (count == 2) {
+				count = 0;
+				parent_idx++;
+				while (parent_idx < nodes.size() && !vec[parent_idx])
+					parent_idx++;
+			}
+
+            
+			if (nodes[i] == "null") {
+				count++;
+				continue;
+			}
+			
+
+			vec[i] = new TreeNode(stoi(nodes[i]));
+			if (count % 2 == 1) {
+				vec[parent_idx]->right = vec[i];
 			}
 			else {
-				vec[parent_idx]->right = newNode;
+				vec[parent_idx]->left = vec[i];
 			}
+			count++;
 		}
 		return vec[0];
 	}
@@ -57,7 +68,7 @@ TreeNode* build_tree(string nodes)
 		[](char ch) {
 			if (ch != ',' && ch != '[' && ch != ']') {
 				return ch;
-			}; 
+			};
 			return ' ';
 		});
 
@@ -67,10 +78,10 @@ TreeNode* build_tree(string nodes)
 
 	while (!iss.eof()) {
 		iss >> next_word;
-		if(!next_word.empty())  // avoid push_back trailing empty space
+		if (!next_word.empty())  // avoid push_back trailing empty space
 			vec.push_back(move(next_word));
 	}
-	
+
 	return build_tree(vec);
 }
 
