@@ -1,49 +1,38 @@
-#pragma once 
+#pragma once
 #include <unordered_map>
 
 namespace leetcode
 {
-    template <typename K>
-    class Counter
+template <typename K> class Counter
+{
+public:
+    void put(const K &key, int count)
     {
-    public:
-        void put(const K &key, int count)
-        {
-            if (count == 0)
-                return;
-            m[key] = count;
-        }
+        if (count == 0) return;
+        m[key] = count;
+    }
 
-        void increase(const K &key)
+    void increase(const K &key)
+    {
+        if (m[key] == -1) { m.erase(key); }
+        else
         {
-            if (m[key] == -1)
-            {
-                m.erase(key);
-            }
-            else
-            {
-                m[key]++;
-            }
+            m[key]++;
         }
+    }
 
-        void decrease(const K &key)
+    void decrease(const K &key)
+    {
+        if (m[key] == 1) { m.erase(key); }
+        else
         {
-            if (m[key] == 1)
-            {
-                m.erase(key);
-            }
-            else
-            {
-                m[key]--;
-            }
+            m[key]--;
         }
+    }
 
-        bool empty() const
-        {
-            return m.empty();
-        }
+    bool empty() const { return m.empty(); }
 
-    private:
-        std::unordered_map<K, int> m;
-    };
-}
+private:
+    std::unordered_map<K, int> m;
+};
+} // namespace leetcode
