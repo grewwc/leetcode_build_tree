@@ -118,7 +118,7 @@ void print_list(ListNode *head) noexcept
 {
     while (head)
     {
-        cout << head->val << endl;
+        std::cout << head->val << std::endl;
         head = head->next;
     }
 }
