@@ -69,7 +69,7 @@ TreeNode *build_tree(std::string nodes)
     std::vector<std::string> vec;
 
     // transform "," & "[" & "]" to empty space
-    transform(cbegin(nodes), cend(nodes), begin(nodes), [](char ch) {
+    transform(std::cbegin(nodes), std::cend(nodes), std::begin(nodes), [](char ch) {
         if (ch != ',' && ch != '[' && ch != ']')
         {
             return ch;
@@ -78,7 +78,7 @@ TreeNode *build_tree(std::string nodes)
     });
 
     // use iss to ignore empty space
-    std::istringstream iss{move(nodes)};
+    std::istringstream iss{std::move(nodes)};
     std::string next_word;
 
     while (!iss.eof())
@@ -92,7 +92,7 @@ TreeNode *build_tree(std::string nodes)
 }
 ListNode *build_list(std::string nodes)
 {
-    string node_val;
+    std::string node_val;
     ListNode *head = new ListNode(0);
     auto cur = head;
     for (int i = 0; i < nodes.size(); i++)
