@@ -90,7 +90,7 @@ TreeNode *build_tree(std::string nodes)
 
     return build_tree(vec);
 }
-ListNode *build_list(string nodes)
+ListNode *build_list(std::string nodes)
 {
     string node_val;
     ListNode *head = new ListNode(0);
